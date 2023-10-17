@@ -1,7 +1,9 @@
+import NewsItem from './components/NewsItem';
+
 function App() {
   return (
     <div>
-      Hello World
+      <NewsItem />
     </div>
   );
 }
