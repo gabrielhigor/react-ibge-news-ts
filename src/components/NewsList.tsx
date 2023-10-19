@@ -5,11 +5,17 @@ import { fetchIBGENews } from '../api/ibgeNewsApi';
 
 function NewsList() {
   const [breakingNews, setBreakingNews] = useState([] as NewsItemType[]);
+  const [moreVisibleNews, setMoreVisibleNews] = useState(10);
   
   async function fetchBreakingNews() {
     const API = await fetchIBGENews();
     const data = updateImageUrlsInNews(API);
     setBreakingNews(data); 
+  }
+
+  function loadMoreNews() {
+    const newVisibleNews = moreVisibleNews + 9;
+    setMoreVisibleNews(newVisibleNews);
   }
 
   useEffect(() => {
@@ -20,7 +26,7 @@ function NewsList() {
     <section>
       <h3>Mais recentes</h3>
       <ul>
-        {breakingNews.slice(1, 10)
+        {breakingNews.slice(1, moreVisibleNews)
           .map((item) => (
             <li key={item.id}>
               <h2>{item.titulo}</h2>
@@ -33,7 +39,7 @@ function NewsList() {
             </li>
           ))}
       </ul>
-      <button>MAIS NOTÍCIAS</button>
+      <button onClick={loadMoreNews} >MAIS NOTÍCIAS</button>
     </section>
   );
 }
