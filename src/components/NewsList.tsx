@@ -60,7 +60,6 @@ function NewsList() {
 
   return (
     <section>
-      <h3>Mais recentes</h3>
       <ul>
         {breakingNews.slice(1, moreVisibleNews)
           .map((item) => (

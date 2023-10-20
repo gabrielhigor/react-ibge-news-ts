@@ -65,7 +65,6 @@ function NewsFavorites() {
 
   return (
     <section>
-      <h3>Favoritas</h3>
       <ul>
         {newsFavorites.map((item: NewsItemType) => (
           <li key={item.id}>

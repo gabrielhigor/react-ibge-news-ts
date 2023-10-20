@@ -5,8 +5,7 @@ import { AnyAction } from 'redux';
 
 import Header from '../components/Header';
 import NewsItem from '../components/NewsItem';
-import NewsList from '../components/NewsList';
-import NewsFavorites from '../components/NewsFavorites';
+import NavButton from '../components/NavButton';
 
 function Home() {
   const dispatch = useDispatch();
@@ -19,8 +18,7 @@ function Home() {
     <>
       <Header />
       <NewsItem />
-      <NewsList />
-      <NewsFavorites />
+      <NavButton />
     </>
   );
 }
