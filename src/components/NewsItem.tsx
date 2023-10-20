@@ -1,4 +1,4 @@
-import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES } from '../redux/actions';
+import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, REQUEST_FAVORITES_SUCCESSFUL } from '../redux/actions';
 import { NewsItem as NewsItemType, ReduxState } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,23 +9,35 @@ function NewsItem() {
 
   function addFavoriteNews(item: NewsItemType) {
     const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+
+    dispatch({
+      type: REQUEST_FAVORITES_SUCCESSFUL,
+      payload: favoriteNews,
+    });
+
     const newFavoriteNews = [...favoriteNews, item];
     localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
 
     dispatch({
       type: ADD_TO_FAVORITES,
-      payload: newFavoriteNews,
+      payload: item,
     });
   }
 
   function removeFavoriteNews(item: NewsItemType) {
     const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+
+    dispatch({
+      type: REQUEST_FAVORITES_SUCCESSFUL,
+      payload: favoriteNews,
+    });
+
     const newFavoriteNews = favoriteNews.filter((news: NewsItemType) => news.id !== item.id);
     localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
     
     dispatch({
       type: REMOVE_FROM_FAVORITES,
-      payload: newFavoriteNews,
+      payload: item,
     });
   }
 

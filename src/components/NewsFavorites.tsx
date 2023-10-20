@@ -1,22 +1,23 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, REQUEST_FAVORITES_SUCCESSFUL } from '../redux/actions';
-import { NewsItem as NewsItemType, ReduxState} from '../types';
+import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, REQUEST_FAVORITES_SUCCESSFUL, getFavorites } from '../redux/actions';
+import { NewsItem as NewsItemType, ReduxState } from '../types';
+import { useEffect } from 'react';
+import { AnyAction } from 'redux';
 
-function NewsList() {
-  const breakingNews = useSelector((state: ReduxState) => state.items);
-  const [moreVisibleNews, setMoreVisibleNews] = useState(10);
+function NewsFavorites() {
+  // Com localStorage:
+  // const dataFavorites = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+  // console.log(dataFavorites);
   
+  // Com Redux:
+  const newsFavorites = useSelector((state: ReduxState) => state.favorites);
+  // console.log(newsFavorites);
+
   const dispatch = useDispatch();
 
-  function loadMoreNews() {
-    const newVisibleNews = moreVisibleNews + 9;
-    setMoreVisibleNews(newVisibleNews);
-  }
-  
   function addFavoriteNews(item: NewsItemType) {
     const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
-
+    
     dispatch({
       type: REQUEST_FAVORITES_SUCCESSFUL,
       payload: favoriteNews,
@@ -58,26 +59,28 @@ function NewsList() {
     }
   }
 
+  useEffect(() => {
+    dispatch(getFavorites() as unknown as AnyAction);
+  }, []);
+
   return (
     <section>
-      <h3>Mais recentes</h3>
+      <h3>Favoritas</h3>
       <ul>
-        {breakingNews.slice(1, moreVisibleNews)
-          .map((item) => (
-            <li key={item.id}>
-              <h2>{item.titulo}</h2>
-              <p>{item.introducao}</p>
-              <time>{item.data_publicacao}</time>
-              <a href={item.link}>
-                <button>Leia a notícia aqui</button>
-              </a>
-              <button onClick={() => heartFavoriteNews(item)}>💚</button>
-            </li>
-          ))}
+        {newsFavorites.map((item: NewsItemType) => (
+          <li key={item.id}>
+            <h2>{item.titulo}</h2>
+            <p>{item.introducao}</p>
+            <time>{item.data_publicacao}</time>
+            <a href={item.link}>
+              <button>Leia a notícia aqui</button>
+            </a>
+            <button onClick={() => heartFavoriteNews(item)}>💚</button>
+          </li>
+        ))}
       </ul>
-      <button onClick={loadMoreNews} >MAIS NOTÍCIAS</button>
     </section>
   );
 }
 
-export default NewsList;
+export default NewsFavorites;
