@@ -27,8 +27,24 @@ export type ImageObject = {
   image_fulltext_caption: string;
 }
 
+export type FavoriteItem = {
+  id: number;
+  tipo: string;
+  titulo: string;
+  introducao: string;
+  data_publicacao: string;
+  produto_id: number;
+  produtos: string;
+  editorias: string;
+  imagens: string;
+  produtos_relacionados: string;
+  destaque: boolean;
+  link: string;
+};
+
 export type ReduxState = {
   items: NewsItem[];
+  favorites: FavoriteItem[];
 };
 
 export type Dispatch = ThunkDispatch<ReduxState, null, AnyAction>;
