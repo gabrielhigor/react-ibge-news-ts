@@ -1,3 +1,6 @@
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+
 export type NewsItem = {
   id: number;
   tipo: string;
@@ -23,3 +26,9 @@ export type ImageObject = {
   image_fulltext_alt: string;
   image_fulltext_caption: string;
 }
+
+export type ReduxState = {
+  items: NewsItem[];
+};
+
+export type Dispatch = ThunkDispatch<ReduxState, null, AnyAction>;
