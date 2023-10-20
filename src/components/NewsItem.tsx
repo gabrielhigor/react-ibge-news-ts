@@ -12,6 +12,30 @@ function NewsItem() {
     setBreakingNews(data[0]); 
   }
   
+  function addFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const newFavoriteNews = [...favoriteNews, item];
+    localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
+    console.log('Adicionando notícia aos favoritos');
+  }
+
+  function removeFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const newFavoriteNews = favoriteNews.filter((news: NewsItemType) => news.id !== item.id);
+    localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
+    console.log('Removendo notícia dos favoritos');
+  }
+
+  function heartFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const isFavorite = favoriteNews.find((news: NewsItemType) => news.id === item.id);
+    if (isFavorite) {
+      removeFavoriteNews(item);
+    } else {
+      addFavoriteNews(item);
+    }
+  }
+
   useEffect(() => {
     fetchBreakingNews();
   }, []);    
@@ -21,7 +45,7 @@ function NewsItem() {
       <img src={breakingNews.imagens} />
       <div>
         <span>Notícia mais recente</span>
-        <button>💚</button>
+        <button onClick={() => heartFavoriteNews(breakingNews)}>💚</button>
         <h2>{breakingNews.titulo}</h2>
         <p>{breakingNews.introducao}</p>
         <time>{breakingNews.data_publicacao}</time>

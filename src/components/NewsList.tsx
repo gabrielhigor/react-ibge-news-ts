@@ -17,6 +17,30 @@ function NewsList() {
     const newVisibleNews = moreVisibleNews + 9;
     setMoreVisibleNews(newVisibleNews);
   }
+  
+  function addFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const newFavoriteNews = [...favoriteNews, item];
+    localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
+    console.log('Adicionando notícia aos favoritos');
+  }
+
+  function removeFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const newFavoriteNews = favoriteNews.filter((news: NewsItemType) => news.id !== item.id);
+    localStorage.setItem('favoriteNews', JSON.stringify(newFavoriteNews));
+    console.log('Removendo notícia dos favoritos');
+  }
+
+  function heartFavoriteNews(item: NewsItemType) {
+    const favoriteNews = JSON.parse(localStorage.getItem('favoriteNews') || '[]');
+    const isFavorite = favoriteNews.find((news: NewsItemType) => news.id === item.id);
+    if (isFavorite) {
+      removeFavoriteNews(item);
+    } else {
+      addFavoriteNews(item);
+    }
+  }
 
   useEffect(() => {
     fetchBreakingNews();
@@ -35,7 +59,7 @@ function NewsList() {
               <a href={item.link}>
                 <button>Leia a notícia aqui</button>
               </a>
-              <button>💚</button>
+              <button onClick={() => heartFavoriteNews(item)}>💚</button>
             </li>
           ))}
       </ul>
