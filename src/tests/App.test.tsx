@@ -51,7 +51,7 @@ describe('Teste', () => {
 
     await user.click(buttonFavorite);
   
-    const navLinkFavorites = screen.getByRole('link', {  name: /favoritas/i})
+    const navLinkFavorites = screen.getByRole('link', {  name: /favoritas/i});
     await user.click(navLinkFavorites);
 
     const buttonFavoriteRemove = within(article).getByRole('button', {  name: /💚/i} );  
